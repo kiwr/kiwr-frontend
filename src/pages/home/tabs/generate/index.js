@@ -30,8 +30,8 @@ const GenerateScreen = () => {
     setLoading(true);
     setData(['teste', 'teste2']);
     try {
-      // const req = await axiosPublic.post(`/create?size=${form.size}`, form);
-      // console.log(req);
+      const req = await axiosPublic.post(`/create?size=${form.size}`, form);
+      console.log(req);
     } catch (err) {
       console.log(err);
     } finally {
