@@ -23,6 +23,7 @@ export const Tab = styled.div`
   font-size: 1.4em;
   border-right: 2px solid ${theme.grey}42;
   padding: 12px 0px;
+  transition: all 0.65 ease;
 
   &:last-child {
     border: none;

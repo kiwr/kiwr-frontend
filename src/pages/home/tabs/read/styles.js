@@ -14,4 +14,6 @@ export const Container = styled.div`
   color: ${theme.grey};
   font-size: 16px;
   font-family: 'Disio', sans-serif;
+  text-align: center;
+  word-wrap: break-word;
 `;

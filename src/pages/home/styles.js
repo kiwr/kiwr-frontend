@@ -7,24 +7,27 @@ export const Container = styled.div`
   height: 100vh;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
   background: ${theme.primary};
 `;
 
 export const MainCard = styled.div`
   width: 60%;
-  & span {
+  display: flex;
+  justify-content: space-between;
+  flex-direction: column;
+`;
+
+export const Title = styled.span`
     font-size: 48px;
     color: ${theme.white}
     font-family: 'Dosis', sans-serif;
     text-align: center;
     display: block;
     margin-bottom: 16px;
-  }
 `;
 
 export const Content = styled.div`
   background: ${theme.white};
   border-radius: 6px;
-  padding: 12px;
+  padding: 24px;
 `;
