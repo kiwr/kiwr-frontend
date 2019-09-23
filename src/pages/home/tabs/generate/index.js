@@ -28,10 +28,10 @@ const GenerateScreen = () => {
 
   const onSubmit = async ({ data, setData }) => {
     setLoading(true);
-    setData(['teste', 'teste2']);
     try {
       const req = await axiosPublic.post(`/create?size=${form.size}`, form);
       console.log(req);
+      setData(req.data.codes);
     } catch (err) {
       console.log(err);
     } finally {
@@ -68,7 +68,7 @@ const GenerateScreen = () => {
                   style={{ marginBottom: 6 }}
                   onChange={value => onChange('size', value)}
                   min={0}
-                  alue={form.size}
+                  value={form.size}
                 />
               </Col>
               <Col span={24}>
@@ -76,7 +76,7 @@ const GenerateScreen = () => {
                   placeholder="Descrição"
                   style={{ marginBottom: 6 }}
                   onChange={e => onChange('desc', e.target.value)}
-                  alue={form.desc}
+                  value={form.desc}
                   autosize={{ minRows: 3, maxRows: 5 }}
                 />
               </Col>
@@ -113,7 +113,7 @@ const GenerateScreen = () => {
             <ListContainer>
               {props.data.map((item, index) => (
                 <ListItem onClick={() => setQrCode(item)}>
-                  Código #{index}
+                  Produto #{index}
                 </ListItem>
               ))}
             </ListContainer>

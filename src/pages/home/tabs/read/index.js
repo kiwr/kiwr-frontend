@@ -17,7 +17,7 @@ const ReadScreen = () => {
           onScan={async value => {
             if (value) {
               const data = await axiosPublic.post('/read', { token: value });
-              console.log(data);
+              setInfo(data.product);
               setCamera(false);
             }
           }}
