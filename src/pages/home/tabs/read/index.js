@@ -13,7 +13,9 @@ const ReadScreen = () => {
   const toggleCamera = () => {
     setError(null);
     setCamera(!camera);
+    teste = true;
   };
+  let teste = true;
 
   return (
     <>
@@ -24,12 +26,16 @@ const ReadScreen = () => {
             delay={300}
             onError={() => setError('Erro ao ler o código')}
             onScan={async value => {
-              if (value) {
+              console.log(teste);
+              if (value && teste) {
                 const data = await axiosPublic.post('/read', { token: value });
+                teste = false;
+                console.log(data, teste);
                 setInfo({
                   ...data.data.product,
                   message: data.data.product.message,
                 });
+
                 setCamera(false);
               }
             }}
