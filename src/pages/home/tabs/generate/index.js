@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Input, Row, Col, InputNumber, Button } from 'antd';
+import { Input, Row, Col, InputNumber, Button, Alert } from 'antd';
 import TextArea from 'antd/lib/input/TextArea';
 import QrCode from 'qrcode.react';
 import {
@@ -7,36 +7,45 @@ import {
   ListContainer,
   ListItem,
   QrCodeContainer,
+  Content,
 } from './styles';
 // eslint-disable-next-line import/no-cycle
 import { CodeContext } from '../..';
 import { axiosPublic } from '../../../../config/axios';
 
+const initialState = {
+  name: '',
+  size: '',
+  lot: '',
+  desc: '',
+};
+
 const GenerateScreen = () => {
-  const [form, setForm] = useState({
-    name: '',
-    size: '',
-    lot: '',
-    desc: '',
-  });
+  const [form, setForm] = useState(initialState);
   const [loading, setLoading] = useState(false);
   const [qrCode, setQrCode] = useState(null);
+  const [error, setError] = useState(null);
 
   const onChange = (field, value) => {
     setForm({ ...form, [field]: value });
   };
 
-  const onSubmit = async ({ data, setData }) => {
+  const onSubmit = async ({ setData }) => {
     setLoading(true);
+    setError(null);
     try {
       const req = await axiosPublic.post(`/create?size=${form.size}`, form);
-      console.log(req);
       setData(req.data.codes);
     } catch (err) {
-      console.log(err);
+      setError('Ocorreu um erro ao gerar novos códigos');
     } finally {
       setLoading(false);
     }
+  };
+
+  const handleNew = ({ setData }) => {
+    setData([]);
+    setForm(initialState);
   };
 
   return (
@@ -44,6 +53,7 @@ const GenerateScreen = () => {
       {props =>
         !props.data.length ? (
           <div>
+            {error && <Alert message={error} type="error" />}
             <Description>Insira dados do Produto</Description>
             <Row gutter={16}>
               <Col md={10} lg={10} style={{ marginBottom: 6 }}>
@@ -54,7 +64,7 @@ const GenerateScreen = () => {
                   onChange={e => onChange('name', e.target.value)}
                 />
               </Col>
-              <Col md={12} lg={10}>
+              <Col md={10} lg={10}>
                 <Input
                   placeholder="Lote"
                   style={{ marginBottom: 6 }}
@@ -62,7 +72,7 @@ const GenerateScreen = () => {
                   value={form.lot}
                 />
               </Col>
-              <Col md={2} lg={2}>
+              <Col md={2}>
                 <InputNumber
                   placeholder="Quantidade"
                   style={{ marginBottom: 6 }}
@@ -96,7 +106,7 @@ const GenerateScreen = () => {
         ) : (
           <>
             <QrCodeContainer>
-              {qrCode ? (
+              {qrCode && (
                 <QrCode
                   value={qrCode}
                   size={128}
@@ -106,9 +116,13 @@ const GenerateScreen = () => {
                   includeMargin={false}
                   renderAs="canvas"
                 />
-              ) : (
-                <Description>Selecione um código abaixo</Description>
               )}
+              <Content>
+                <Button onClick={() => handleNew(props)}>
+                  Gerar novos códigos
+                </Button>
+                <Description>Selecione um código abaixo</Description>
+              </Content>
             </QrCodeContainer>
             <ListContainer>
               {props.data.map((item, index) => (

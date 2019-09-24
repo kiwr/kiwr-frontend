@@ -5,16 +5,21 @@ export const Container = styled.div`
   display: flex;
   width: 100vw;
   height: 100vh;
+  overflow-y: auto;
   flex-direction: column;
   align-items: center;
   background: ${theme.primary};
 `;
 
 export const MainCard = styled.div`
-  width: 60%;
+  width: 70%;
   display: flex;
   justify-content: space-between;
   flex-direction: column;
+
+  @media (max-width: 720px) {
+    width: 90%;
+  }
 `;
 
 export const Title = styled.span`

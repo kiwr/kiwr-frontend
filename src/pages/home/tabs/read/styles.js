@@ -16,4 +16,10 @@ export const Container = styled.div`
   font-family: 'Disio', sans-serif;
   text-align: center;
   word-wrap: break-word;
+  margin: 10px 0;
+`;
+
+export const InfoContainer = styled.div`
+  margin-top: 36px;
+  width: 100%;
 `;

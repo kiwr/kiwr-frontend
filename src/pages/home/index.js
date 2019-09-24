@@ -1,9 +1,10 @@
-import React, { useState, useContext } from 'react';
+import React, { useState } from 'react';
 import { FiPlus } from 'react-icons/fi';
 import { IoIosQrScanner } from 'react-icons/io';
 import { Container, MainCard, Content, Title } from './styles';
 import ButtonTabs from '../../components/ButtonTabs';
 import ReadScreen from './tabs/read';
+// eslint-disable-next-line import/no-cycle
 import GenerateScreen from './tabs/generate';
 
 export const CodeContext = React.createContext();

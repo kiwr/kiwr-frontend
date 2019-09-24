@@ -11,11 +11,13 @@ export const Description = styled.p`
   font-size: 14px;
   font-family: 'Disio', sans-serif;
   color: ${theme.black};
+  font-weight: 600;
 `;
 
 export const QrCodeContainer = styled.div`
   display: flex;
   width: 100%;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
 `;
@@ -43,4 +45,10 @@ export const ListItem = styled.span`
     color: ${theme.white};
     transition: all 0.55s ease;
   }
+`;
+
+export const Content = styled.div`
+  display: flex;
+  align-items: center;
+  flex-direction: column;
 `;
