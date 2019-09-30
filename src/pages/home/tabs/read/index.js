@@ -10,27 +10,37 @@ const ReadScreen = () => {
   const [info, setInfo] = useState(null);
   const [error, setError] = useState(null);
 
+  let teste = true;
+
   const toggleCamera = () => {
     setError(null);
     setCamera(!camera);
     teste = true;
   };
-  let teste = true;
 
   return (
     <>
       {error && <Alert message={error} type="error" />}
+
+      {info && (
+        <InfoContainer>
+          <Descriptions title="Produto" size="middle">
+            <Descriptions.Item label="Nome">{info.name}</Descriptions.Item>
+            <Descriptions.Item label="Lote">{info.lot}</Descriptions.Item>
+            <Descriptions.Item label="Descrição">{info.desc}</Descriptions.Item>
+            <Descriptions.Item label="Status">{info.message}</Descriptions.Item>
+          </Descriptions>
+        </InfoContainer>
+      )}
       <Container onClick={toggleCamera}>
         {camera ? (
           <QrReader
             delay={300}
             onError={() => setError('Erro ao ler o código')}
             onScan={async value => {
-              console.log(teste);
               if (value && teste) {
                 const data = await axiosPublic.post('/read', { token: value });
                 teste = false;
-                console.log(data, teste);
                 setInfo({
                   ...data.data.product,
                   message: data.data.product.message,
@@ -48,16 +58,6 @@ const ReadScreen = () => {
           </>
         )}
       </Container>
-      {info && (
-        <InfoContainer>
-          <Descriptions title="Produto" size="middle">
-            <Descriptions.Item label="Nome">{info.name}</Descriptions.Item>
-            <Descriptions.Item label="Lote">{info.lot}</Descriptions.Item>
-            <Descriptions.Item label="Descrição">{info.desc}</Descriptions.Item>
-            <Descriptions.Item label="Status">{info.message}</Descriptions.Item>
-          </Descriptions>
-        </InfoContainer>
-      )}
     </>
   );
 };

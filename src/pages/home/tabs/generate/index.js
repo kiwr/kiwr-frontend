@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { Input, Row, Col, InputNumber, Button, Alert } from 'antd';
 import TextArea from 'antd/lib/input/TextArea';
 import QrCode from 'qrcode.react';
@@ -8,10 +8,12 @@ import {
   ListItem,
   QrCodeContainer,
   Content,
+  PrintContainer,
 } from './styles';
 // eslint-disable-next-line import/no-cycle
 import { CodeContext } from '../..';
 import { axiosPublic } from '../../../../config/axios';
+import { PrintButton } from '../../../../components/PrintButton';
 
 const initialState = {
   name: '',
@@ -23,8 +25,9 @@ const initialState = {
 const GenerateScreen = () => {
   const [form, setForm] = useState(initialState);
   const [loading, setLoading] = useState(false);
-  const [qrCode, setQrCode] = useState(null);
   const [error, setError] = useState(null);
+
+  const contentRef = useRef();
 
   const onChange = (field, value) => {
     setForm({ ...form, [field]: value });
@@ -37,7 +40,10 @@ const GenerateScreen = () => {
       const req = await axiosPublic.post(`/create?size=${form.size}`, form);
       setData(req.data.codes);
     } catch (err) {
-      setError('Ocorreu um erro ao gerar novos códigos');
+      setError(
+        err.response.data.errorMessage ||
+          'Ocorreu um erro ao gerar novos códigos'
+      );
     } finally {
       setLoading(false);
     }
@@ -55,8 +61,8 @@ const GenerateScreen = () => {
           <div>
             {error && <Alert message={error} type="error" />}
             <Description>Insira dados do Produto</Description>
-            <Row gutter={16}>
-              <Col md={10} lg={10} style={{ marginBottom: 6 }}>
+            <Row gutter={12}>
+              <Col md={11} lg={11} style={{ marginBottom: 6 }}>
                 <Input
                   placeholder="Nome"
                   value={form.name}
@@ -72,7 +78,7 @@ const GenerateScreen = () => {
                   value={form.lot}
                 />
               </Col>
-              <Col md={2}>
+              <Col md={3} lg={3}>
                 <InputNumber
                   placeholder="Quantidade"
                   style={{ marginBottom: 6 }}
@@ -106,28 +112,30 @@ const GenerateScreen = () => {
         ) : (
           <>
             <QrCodeContainer>
-              {qrCode && (
-                <QrCode
-                  value={qrCode}
-                  size={128}
-                  level="H"
-                  bgColor="#fff"
-                  fgColor="#000"
-                  includeMargin={false}
-                  renderAs="canvas"
-                />
-              )}
               <Content>
                 <Button onClick={() => handleNew(props)}>
                   Gerar novos códigos
                 </Button>
                 <Description>Selecione um código abaixo</Description>
               </Content>
+              <PrintContainer>
+                <PrintButton content={() => contentRef.current} />
+              </PrintContainer>
             </QrCodeContainer>
-            <ListContainer>
+            <ListContainer ref={contentRef}>
               {props.data.map((item, index) => (
-                <ListItem onClick={() => setQrCode(item)}>
+                // eslint-disable-next-line react/no-array-index-key
+                <ListItem key={index}>
                   Produto #{index}
+                  <QrCode
+                    value={item}
+                    size={128}
+                    level="H"
+                    bgColor="#fff"
+                    fgColor="#000"
+                    includeMargin={false}
+                    renderAs="canvas"
+                  />
                 </ListItem>
               ))}
             </ListContainer>

@@ -11,6 +11,7 @@ export const Description = styled.p`
   font-size: 14px;
   font-family: 'Disio', sans-serif;
   color: ${theme.black};
+  paddingtop: 12px;
   font-weight: 600;
 `;
 
@@ -25,8 +26,12 @@ export const QrCodeContainer = styled.div`
 export const ListContainer = styled.div`
   margin-top: 24px;
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
+  flex-wrap: wrap;
+  flex-grow: 1,
   flex: 1;
+  justify-content: center;
+
 `;
 
 export const ListItem = styled.span`
@@ -35,10 +40,12 @@ export const ListItem = styled.span`
   background: transparent;
   transition: all 0.35s ease;
   cursor: pointer;
-  width: 100%;
   padding: 12px;
   borderbottom: 1px solid ${theme.grey};
-  display: block;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 
   &:hover {
     background: ${theme.primary};
@@ -51,4 +58,10 @@ export const Content = styled.div`
   display: flex;
   align-items: center;
   flex-direction: column;
+`;
+
+export const PrintContainer = styled.div`
+  display: flex;
+  width: 100%;
+  justify-content: flex-end;
 `;
