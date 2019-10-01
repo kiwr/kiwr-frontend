@@ -9,6 +9,7 @@ import GenerateScreen from './tabs/generate';
 import AllCodesScreen from './tabs/all';
 
 export const CodeContext = React.createContext();
+
 const tabs = [
   {
     title: 'Ler',

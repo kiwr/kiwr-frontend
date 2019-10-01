@@ -7,7 +7,7 @@ export const PrintButton = ({ content }) => {
     <ReactToPrint
       content={content}
       trigger={() => (
-        <Button icon="printer" type="dashed" ghost type="primary">
+        <Button icon="printer" type="primary" ghost>
           Imprimir
         </Button>
       )}
