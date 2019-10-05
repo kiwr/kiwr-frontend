@@ -56,7 +56,7 @@ const AllCodesScreen = () => {
                     <ListItem key={Math.random().toString()}>
                       Produto #{index + 1}
                       <QrCode
-                        value={code}
+                        value={`${process.env.REACT_APP_URL}/read/${code}`}
                         size={256}
                         level="M"
                         bgColor="#fff"

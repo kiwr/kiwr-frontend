@@ -68,7 +68,7 @@ const GenerateScreen = () => {
             {error && <Alert message={error} type="error" />}
             <Description>Insira dados do Produto</Description>
             <Row gutter={12}>
-              <Col md={11} lg={11} style={{ marginBottom: 6 }}>
+              <Col md={10} lg={10} style={{ marginBottom: 6 }}>
                 <Input
                   placeholder="Nome"
                   value={form.name}
@@ -136,7 +136,7 @@ const GenerateScreen = () => {
                   <QrCode
                     value={`${process.env.REACT_APP_URL}/read/${item}`}
                     size={256}
-                    level=""
+                    level="M"
                     bgColor="#fff"
                     fgColor="#000"
                     includeMargin={false}
