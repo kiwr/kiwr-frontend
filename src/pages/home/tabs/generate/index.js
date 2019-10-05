@@ -37,11 +37,17 @@ const GenerateScreen = () => {
     setLoading(true);
     setError(null);
     try {
-      const req = await axiosPublic.post(`/create?size=${form.size}`, form);
-      setData(req.data.codes);
+      const { data } = await axiosPublic.post(
+        `/create?size=${form.size}`,
+        form
+      );
+      if (data.success) {
+        const { products, initialIndex } = data;
+        setData({ products, initialIndex });
+      }
     } catch (err) {
       setError(
-        err.response.data.errorMessage ||
+        (err.response && err.response.data.errorMessage) ||
           'Ocorreu um erro ao gerar novos códigos'
       );
     } finally {
@@ -57,7 +63,7 @@ const GenerateScreen = () => {
   return (
     <CodeContext.Consumer>
       {props =>
-        !props.data.length ? (
+        !(props.data.products && props.data.products.length) ? (
           <div>
             {error && <Alert message={error} type="error" />}
             <Description>Insira dados do Produto</Description>
@@ -123,14 +129,14 @@ const GenerateScreen = () => {
               </PrintContainer>
             </QrCodeContainer>
             <ListContainer ref={contentRef}>
-              {props.data.map((item, index) => (
+              {props.data.products.map((item, index) => (
                 // eslint-disable-next-line react/no-array-index-key
                 <ListItem key={index}>
-                  Produto #{index}
+                  Produto #{props.data.initialIndex + index + 1}
                   <QrCode
-                    value={item}
-                    size={128}
-                    level="H"
+                    value={`${process.env.REACT_APP_URL}/read/${item}`}
+                    size={256}
+                    level=""
                     bgColor="#fff"
                     fgColor="#000"
                     includeMargin={false}

@@ -1,14 +1,20 @@
 import React, { useRef, useState, useEffect } from 'react';
 import QrCode from 'qrcode.react';
 import { Alert, Spin } from 'antd';
-import { Container } from './styles';
 import { PrintButton } from '../../../../components/PrintButton';
-import { ListContainer, ListItem } from '../generate/styles';
 import { axiosPublic } from '../../../../config/axios';
+import {
+  Container,
+  ListContainer,
+  LotContainer,
+  ListItem,
+  LotTitle,
+} from './styles';
 
 const AllCodesScreen = () => {
   const contentRef = useRef();
   const [loading, setLoading] = useState(false);
+
   const [data, setData] = useState([]);
   const [error, setError] = useState(null);
 
@@ -18,8 +24,9 @@ const AllCodesScreen = () => {
         setLoading(true);
         setError(null);
         const res = await axiosPublic.get('/readAll');
-        if (res.data.success) {
-          setData(res.data.products);
+        const lotData = res.data;
+        if (lotData.success) {
+          setData(lotData.produtos);
         }
       } catch (err) {
         const { response } = err;
@@ -28,7 +35,6 @@ const AllCodesScreen = () => {
         setLoading(false);
       }
     };
-
     fetch();
   }, []);
 
@@ -42,20 +48,26 @@ const AllCodesScreen = () => {
         <>
           <PrintButton content={() => contentRef.current} />
           <ListContainer ref={contentRef}>
-            {data.map((item, index) => (
-              // eslint-disable-next-line react/no-array-index-key
-              <ListItem key={index}>
-                Produto #{index}
-                <QrCode
-                  value={item}
-                  size={128}
-                  level="H"
-                  bgColor="#fff"
-                  fgColor="#000"
-                  includeMargin={false}
-                  renderAs="canvas"
-                />
-              </ListItem>
+            {Object.keys(data).map(lot => (
+              <>
+                <LotTitle>{String(lot).toUpperCase()} </LotTitle>
+                <LotContainer key={Math.random().toString()}>
+                  {data[lot].map((code, index) => (
+                    <ListItem key={Math.random().toString()}>
+                      Produto #{index + 1}
+                      <QrCode
+                        value={code}
+                        size={256}
+                        level="M"
+                        bgColor="#fff"
+                        fgColor="#000"
+                        includeMargin={false}
+                        renderAs="canvas"
+                      />
+                    </ListItem>
+                  ))}
+                </LotContainer>
+              </>
             ))}
           </ListContainer>
         </>

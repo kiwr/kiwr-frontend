@@ -26,7 +26,7 @@ export const QrCodeContainer = styled.div`
 export const ListContainer = styled.div`
   margin-top: 24px;
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   flex-wrap: wrap;
   flex-grow: 1,
   flex: 1;
@@ -46,12 +46,6 @@ export const ListItem = styled.span`
   flex-direction: column;
   align-items: center;
   justify-content: center;
-
-  &:hover {
-    background: ${theme.primary};
-    color: ${theme.white};
-    transition: all 0.55s ease;
-  }
 `;
 
 export const Content = styled.div`
