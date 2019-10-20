@@ -43,7 +43,7 @@ export const Content = styled(Layout.Content)`
 
 export const Header = styled(Layout.Header)`
   background: #fff;
-  padding: 0;
+  padding: 12;
   box-shadow: 0 0 6px 2px rgba(0, 0, 0, 0.3);
   font-size: 18px;
   font-weight: 600;
