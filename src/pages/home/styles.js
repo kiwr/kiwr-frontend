@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { Layout } from 'antd';
 import theme from '../../theme';
 
 export const Container = styled.div`
@@ -31,8 +32,19 @@ export const Title = styled.span`
     margin-bottom: 16px;
 `;
 
-export const Content = styled.div`
-  background: ${theme.white};
-  border-radius: 6px;
-  padding: 24px;
+export const Content = styled(Layout.Content)`
+  padding: 48px;
+  display: flex;
+  flex: 1;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+`;
+
+export const Header = styled(Layout.Header)`
+  background: #fff;
+  padding: 0;
+  box-shadow: 0 0 6px 2px rgba(0, 0, 0, 0.3);
+  font-size: 18px;
+  font-weight: 600;
 `;
