@@ -43,8 +43,18 @@ const HomeScreen = () => {
 
   return (
     <CodeContext.Provider value={{ data, setData }}>
-      <Layout style={{ minHeight: '100vh' }}>
-        <Sider collapsible collapsed={collapsed} onCollapse={setCollapsed}>
+      <Layout style={{ minHeight: '100vh', paddingLeft: collapsed ? 81 : 200 }}>
+        <Sider
+          style={{
+            overflow: 'auto',
+            height: '100vh',
+            position: 'fixed',
+            left: 0,
+          }}
+          collapsible
+          collapsed={collapsed}
+          onCollapse={setCollapsed}
+        >
           <Title>KiwR</Title>
           <Menu
             theme="dark"

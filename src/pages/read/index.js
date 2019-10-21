@@ -1,17 +1,15 @@
 import React, { useState } from 'react';
 import { FaCamera } from 'react-icons/fa';
 import QrReader from 'react-qr-reader';
-import { Alert, Descriptions } from 'antd';
+import { Alert, Descriptions, Layout } from 'antd';
 import { Container, InfoContainer } from './styles';
 import { axiosPublic } from '../../config/axios';
-import {
-  Content,
-  MainCard,
-  Container as HomeContainer,
-  Title,
-} from '../home/styles';
+import { Content, Title, Header } from '../home/styles';
+
+const { Sider } = Layout;
 
 const ReadScreen = () => {
+  const [collapsed, setCollapsed] = useState(false);
   const [camera, setCamera] = useState(false);
   const [info, setInfo] = useState(null);
   const [error, setError] = useState(null);
@@ -25,12 +23,22 @@ const ReadScreen = () => {
   };
 
   return (
-    <HomeContainer>
-      <MainCard>
-        <div>
-          <Title>KiwR</Title>
-        </div>
-
+    <Layout style={{ minHeight: '100vh', paddingLeft: collapsed ? 81 : 200 }}>
+      <Sider
+        style={{
+          overflow: 'auto',
+          height: '100vh',
+          position: 'fixed',
+          left: 0,
+        }}
+        collapsible
+        collapsed={collapsed}
+        onCollapse={setCollapsed}
+      >
+        <Title>KiwR</Title>
+      </Sider>
+      <Layout>
+        <Header style={{ background: '#fff' }}>Leitura de Códigos</Header>
         <Content>
           {error && <Alert message={error} type="error" />}
 
@@ -77,8 +85,8 @@ const ReadScreen = () => {
             )}
           </Container>
         </Content>
-      </MainCard>
-    </HomeContainer>
+      </Layout>
+    </Layout>
   );
 };
 

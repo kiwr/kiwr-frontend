@@ -1,10 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import { Alert, Descriptions, Spin } from 'antd';
+import { Alert, Descriptions, Spin, Layout } from 'antd';
 import { InfoContainer } from './styles';
 import { axiosPublic } from '../../config/axios';
-import { Container, MainCard, Title, Content } from '../home/styles';
+import { Title, Content, Header } from '../home/styles';
+
+const { Sider } = Layout;
 
 const InfoScreen = ({ match }) => {
+  const [collapsed, setCollapsed] = useState(false);
   const [loading, setLoading] = useState(false);
   const [info, setInfo] = useState(null);
   const [error, setError] = useState(null);
@@ -38,12 +41,22 @@ const InfoScreen = ({ match }) => {
   }, []);
 
   return (
-    <Container>
-      <MainCard>
-        <div>
-          <Title>KiwR</Title>
-        </div>
-
+    <Layout style={{ minHeight: '100vh', paddingLeft: collapsed ? 81 : 200 }}>
+      <Sider
+        style={{
+          overflow: 'auto',
+          height: '100vh',
+          position: 'fixed',
+          left: 0,
+        }}
+        collapsible
+        collapsed={collapsed}
+        onCollapse={setCollapsed}
+      >
+        <Title>KiwR</Title>
+      </Sider>
+      <Layout>
+        <Header style={{ background: '#fff' }}>Informações</Header>
         <Content>
           {loading ? (
             <Spin />
@@ -72,8 +85,8 @@ const InfoScreen = ({ match }) => {
             </>
           )}
         </Content>
-      </MainCard>
-    </Container>
+      </Layout>
+    </Layout>
   );
 };
 

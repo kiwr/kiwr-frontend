@@ -24,7 +24,8 @@ export const MainCard = styled.div`
 `;
 
 export const Title = styled.span`
-    font-size: 48px;
+    padding-top: 0.4em;
+    font-size: 2em;
     color: ${theme.white}
     font-family: 'Dosis', sans-serif;
     text-align: center;
